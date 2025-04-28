@@ -4,22 +4,22 @@ import com.thiagoalencar.socialexperiment.domain.Usuario;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class UsuarioRepository {
 
-    private Map<String, Usuario> usuarios;
+    private final Map<String, Usuario> dbUsuario;
 
-    public UsuarioRepository() {
-        this.usuarios = new java.util.HashMap<>();
+    public UsuarioRepository(Map<String, Usuario> dbUsuario) {
+        this.dbUsuario = Optional.ofNullable(dbUsuario).orElse(new java.util.HashMap<>());
     }
 
     public Usuario cadastrar(Usuario usuario) {
-        usuarios.put(usuario.getEmail(), usuario);
-        return usuario;
+        return dbUsuario.put(usuario.getEmail(), usuario);
     }
 
     public Usuario buscar(String id) {
-        return usuarios.get(id);
+        return dbUsuario.get(id);
     }
 }
